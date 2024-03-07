@@ -1,0 +1,30 @@
+---
+- hosts: all
+  vars:
+    file_to_check: "{{ lookup('env', 'FILE_TO_CHECK') }}"  # or any other method to specify the file
+  tasks:
+    - name: Verify if ansible_user can take this action
+      fail:
+        msg: "{{ ansible_user }} cannot take this action"
+      when: >
+        ansible_user is not search('obj') and
+        ansible_user is not search('OBJ') and
+        ansible_user is not search('ols.tst') and
+        ansible_user is not search('.vie3.tst') and
+        ansible_user is not search('dupdb.mgr')
+
+
+
+
+    # - name: Check if the file or directory exists
+    #   stat:
+    #     path: "{{ file_to_check }}"
+    #   register: file_stat  # Saving the result of the stat module
+
+    # - name: Fail if the file or directory does not exist
+    #   fail:
+    #     msg: "Could not locate source {{ file_to_check }}"
+    #   when: not file_stat.stat.exists  # Condition based on the result of the 'stat' task
+
+
+
